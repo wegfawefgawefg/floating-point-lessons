@@ -4,9 +4,20 @@ title: Floating Point Lessons
 
 # Floating Point Lessons
 
-Hands-on lessons and experiments about floating-point behavior, precision, and custom formats.
+Hands-on lessons about floating-point behavior, precision, and custom numeric formats.
 
-## Lessons
+## How to use this tutorial
+
+Each lesson follows the same structure:
+
+1. State the claim.
+2. Run a concrete demo.
+3. Interpret the output.
+4. Extract a design rule.
+
+Read in order; each lesson depends on the previous one.
+
+## Learning path
 
 1. [Integer math first](lessons/01-integer-math)
 2. [Float basics and error modes](lessons/02-float-basics)
@@ -22,11 +33,7 @@ Hands-on lessons and experiments about floating-point behavior, precision, and c
 - [Soft-float ranking](soft_float_sweep_ranking)
 - [Profile quantizer example](profile_quantizer_examples)
 
-### Precision trend graph
-
 ![Precision trend graph](precision_over_range.svg)
-
-### Format sweep comparison
 
 ![Soft-float sweep comparison](soft_float_sweep.svg)
 

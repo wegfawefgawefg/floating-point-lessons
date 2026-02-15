@@ -4,18 +4,16 @@ title: Lesson 06 - Domain Profiles and Asymmetric Precision
 
 # Lesson 06: Domain Profiles and Asymmetric Precision
 
-Question: can we make precision high in `[0, 2)` but low in `[-1, 0)`?
+## What this lesson is for
 
-Yes, but not with one standard IEEE float format.
+Sometimes requirements are asymmetric across value regions.
+This lesson shows when standard float formats cannot satisfy that requirement, and what to use instead.
 
-## Important clarification
+## Claim
 
-- IEEE-like floats (including bfloat16) are sign-symmetric.
-- That means `+x` and `-x` have the same precision at the same magnitude.
+IEEE-like formats are sign-symmetric, so they cannot provide finer precision on `+x` than `-x` at the same magnitude.
 
-So if you want different precision by value region or sign, use a **profile/piecewise quantizer**.
-
-## Concrete example in this repo
+## Demonstration
 
 Run:
 
@@ -28,13 +26,13 @@ Outputs:
 - `docs/profile_quantizer_examples.md`
 - `docs/profile_quantizer_examples.csv`
 
-This compares:
+Compared quantizers:
 
 - `bf16_like` (uniform)
 - `f32_like` (uniform)
 - `profile_pos_fine_neg_coarse` (piecewise)
 
-## Piecewise profile code
+## Piecewise profile definition
 
 ```rust
 regions: vec![
@@ -51,9 +49,17 @@ regions: vec![
 ]
 ```
 
-The profile quantizer is intentionally:
+## Interpretation
 
-- coarse on `[-1, 0)`
-- fine on `[0, 2)`
+- Uniform formats keep similar behavior for `+x` and `-x` at equal magnitude.
+- Piecewise quantizers can intentionally break that symmetry.
+- Use piecewise/domain profiles when your error budget is region-specific.
 
-This gives exactly the kind of asymmetric behavior you described.
+## End state
+
+You now have a complete workflow:
+
+1. Understand float error modes.
+2. Model alternative formats.
+3. Sweep and rank them for your domain.
+4. Use piecewise profiles when uniform formats cannot express the requirement.

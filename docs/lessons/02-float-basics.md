@@ -4,48 +4,61 @@ title: Lesson 02 - Float Math and Error Modes
 
 # Lesson 02: Float Math and Error Modes
 
-This lesson uses the runnable examples in `src/main.rs`.
+## What this lesson is for
 
-Run it:
+This lesson shows the core error patterns that make float code behave differently from integer code.
+
+## Claims
+
+1. Most decimal fractions are not exactly representable in binary.
+2. Repeated operations can accumulate or expose error.
+3. Precision depends on scale.
+
+## Run the demo
 
 ```bash
 cargo run -q
 ```
 
-## What to look for
+The executable in `src/main.rs` prints five sections:
 
-- Decimal mismatch: `0.1 + 0.2` is close to, but not exactly, `0.3`
-- Accumulation error: repeating inexact operations can drift
-- Catastrophic cancellation: subtracting nearly equal large values loses digits
-- Scale dependence: absolute precision changes with magnitude
+- decimal representation mismatch
+- accumulation drift
+- catastrophic cancellation
+- scaling across powers of ten
+- non-accumulating counterexamples
 
-## Code example
+## One concrete code slice
 
 ```rust
-fn decimal_representation_demo() {
-    let a32: f32 = 0.1;
-    let b32: f32 = 0.2;
-    let a64: f64 = 0.1;
-    let b64: f64 = 0.2;
-
-    println!("f32: 0.1 + 0.2 = {:.10}", a32 + b32);
-    println!("f64: 0.1 + 0.2 = {:.17}", a64 + b64);
-}
+let a32: f32 = 0.1;
+let b32: f32 = 0.2;
+println!("f32: 0.1 + 0.2 = {:.10}", a32 + b32);
 ```
 
-## Visual intuition
+This demonstrates that the stored values are nearby binary approximations, not exact decimal values.
 
-Generate the precision graph:
+## Visual interpretation
+
+Generate the graph:
 
 ```bash
 cargo run -q --bin precision_graph
 ```
 
-Output:
-
-- `docs/precision_over_range.svg`
-
 ![Precision over range](../precision_over_range.svg)
 
-The top panel shows the global trend in ULP size.
-The bottom panel shows the jagged exponent-bin structure.
+How to read it:
+
+- Top panel: global trend of ULP size versus magnitude.
+- Bottom panel: step-like residual structure from exponent bins.
+- Practical meaning: the same algorithm can behave differently at different scales.
+
+## Takeaway
+
+Float arithmetic is deterministic but approximate.
+The correct question is not "is float wrong?" but "what error model does this computation induce?"
+
+## Continue
+
+Next: [Lesson 03: Build Your Own Float in Software](03-soft-float)

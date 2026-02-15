@@ -4,7 +4,14 @@ title: Lesson 05 - Discover Good Formats Automatically
 
 # Lesson 05: Discover Good Formats Automatically
 
-Now we use the sweep results to rank candidate formats.
+## What this lesson is for
+
+After sweeping many candidates, you need a repeatable way to pick one.
+This lesson introduces a ranking objective and how to tune it.
+
+## Claim
+
+"Best" format is an objective function, not a universal constant.
 
 ## Run ranking
 
@@ -12,14 +19,12 @@ Now we use the sweep results to rank candidate formats.
 cargo run -q --bin soft_float_explorer
 ```
 
-This now generates:
+Generated artifacts include:
 
-- `docs/soft_float_sweep.svg`
-- `docs/soft_float_sweep.csv`
-- `docs/soft_float_sweep_summary.md`
 - `docs/soft_float_sweep_ranking.md`
+- `docs/soft_float_sweep_summary.md`
 
-## Ranking formula in code
+## Scoring model
 
 ```rust
 score = log10(mean_rel_err)
@@ -28,26 +33,16 @@ score = log10(mean_rel_err)
       + p_over * overflow_frac
 ```
 
-## How ranking works
+## Interpretation
 
-Each format gets a score (lower is better):
+- `mean_rel_err`: everyday quality.
+- `max_rel_err`: protects against bad tails.
+- `underflow_frac`/`overflow_frac`: explicit clipping penalties.
 
-- `mean_rel_err`: typical precision
-- `max_rel_err`: worst-case precision
-- `underflow_frac`: how often values collapse to zero
-- `overflow_frac`: how often values collapse to infinity
+If your application is tail-sensitive, increase `w_max`.
+If clipping is unacceptable, increase `p_under` and `p_over`.
 
-This is a practical default, not universal truth. You can tune these weights from the CLI for your domain.
-
-## Workflow to find a good format
-
-1. Define candidate formats (mantissa + exponent range).
-2. Sweep the magnitude range you care about (`k` range).
-3. Check ranking table for top candidates.
-4. Inspect plot and CSV for edge-case behavior.
-5. Iterate with adjusted bit allocations.
-
-## Example: compare three custom designs with domain focus
+## Domain-focused example
 
 ```bash
 cargo run -q --bin soft_float_explorer -- --no-presets \
@@ -59,8 +54,8 @@ cargo run -q --bin soft_float_explorer -- --no-presets \
   --add-format wide,7,-60,60
 ```
 
-Then read:
+Then inspect `docs/data/app_domain_ranking.md`.
 
-- `docs/data/app_domain_ranking.md`
+## Continue
 
-Use this to answer: "Which representation is best for my value range and tolerance?"
+Next: [Lesson 06: Domain Profiles and Asymmetric Precision](06-domain-profiles)

@@ -4,13 +4,21 @@ title: Lesson 04 - Sweep Many Float Formats
 
 # Lesson 04: Sweep Many Float Formats
 
-Use the general evaluator:
+## What this lesson is for
+
+A single point test can mislead you. This lesson shows how to evaluate formats across an entire magnitude band.
+
+## Claim
+
+Format quality is distribution-dependent; you need sweeps, not anecdotes.
+
+## Run the sweep
 
 ```bash
 cargo run -q --bin soft_float_explorer
 ```
 
-Default outputs:
+Outputs:
 
 - `docs/soft_float_sweep.svg`
 - `docs/soft_float_sweep.csv`
@@ -19,23 +27,24 @@ Default outputs:
 
 ![Soft-float sweep](../soft_float_sweep.svg)
 
-## What it does
+## What the tool is doing
 
-- Samples values as `x = 10^k`
-- Quantizes each value through each configured software format
-- Computes relative error
-- Plots `log10(relative error)` across k-range
-- Ranks formats by a practical score (see Lesson 05)
+1. Samples values as `x = 10^k` over your configured `k` interval.
+2. Quantizes each sample with each candidate format.
+3. Measures relative error and clipping behavior.
+4. Writes plot/table artifacts for comparison.
 
-## Add your own formats
+## How to reason about results
 
-Replace presets with one format:
+- Long flat low-error regions: stable precision in that band.
+- Spikes/discontinuities: clipping boundaries or quantization transitions.
+- A good format for one domain can be poor for another.
+
+## Useful variants
 
 ```bash
 cargo run -q --bin soft_float_explorer -- --format custom,11,-40,40
 ```
-
-Compare several custom formats:
 
 ```bash
 cargo run -q --bin soft_float_explorer -- --no-presets \
@@ -44,19 +53,11 @@ cargo run -q --bin soft_float_explorer -- --no-presets \
   --add-format wide,7,-100,100
 ```
 
-Tune sampling and output path:
-
-```bash
-cargo run -q --bin soft_float_explorer -- \
-  --k-min -30 --k-max 30 --k-step 0.05 \
-  --out docs/data/my_sweep
-```
-
-Add domain focus weighting:
-
 ```bash
 cargo run -q --bin soft_float_explorer -- \
   --focus-min -2 --focus-max 1 --focus-weight 8
 ```
 
-This is the general form: define formats, sweep many representations, and characterize precision over range.
+## Continue
+
+Next: [Lesson 05: Discover Good Formats Automatically](05-discover-good-formats)

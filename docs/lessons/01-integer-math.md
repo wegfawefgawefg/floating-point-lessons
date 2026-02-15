@@ -4,26 +4,39 @@ title: Lesson 01 - Integer Math First
 
 # Lesson 01: Integer Math First
 
-Before floats, start with integers.
+## What this lesson is for
 
-## Key idea
+This lesson establishes a baseline: integer arithmetic is exact, but only within range.
+You need this baseline before float behavior makes sense.
 
-Integer arithmetic is exact as long as the true result fits in range.
+## Claim
 
-- `7 + 5` is exactly `12`
-- `1000 * 1000` is exact if the type is wide enough
-- No rounding error is involved
+Integer math has no rounding model. Results are exact unless the type cannot represent them.
 
-## What can still go wrong
+## Demonstration
 
-- Overflow/underflow: result does not fit the integer type
-- Division truncation: `7 / 3` in integer math is `2`
+```rust
+let a: i32 = 7 + 5;      // 12 exactly
+let b: i32 = 1_000 * 1_000; // exact if still in range
+let c: i32 = 7 / 3;      // 2, because integer division truncates
+```
 
-## Why this matters for later lessons
+## What to notice
 
-Floats are different from ints in one important way:
+- `a` and `b` are exact because they fit in `i32`.
+- `c` is not "wrong"; it follows integer division rules.
+- None of these involve representational drift.
 
-- Int errors are usually range/overflow issues
-- Float errors are representation/rounding issues
+## Failure modes you still have
 
-That distinction is the foundation for the rest of this tutorial.
+- Overflow/underflow: true result exceeds type bounds.
+- Truncation on integer division.
+
+## Why this matters for floats
+
+When we move to floats, the dominant risk changes from **range-only** problems to **representation and rounding** problems.
+That is the conceptual jump for the rest of the tutorial.
+
+## Continue
+
+Next: [Lesson 02: Float Math and Error Modes](02-float-basics)
