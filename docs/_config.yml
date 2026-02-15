@@ -1,0 +1,7 @@
+title: Floating Point Lessons
+description: Hands-on lessons and experiments about floating-point behavior and custom formats.
+markdown: kramdown
+kramdown:
+  input: GFM
+plugins:
+  - jekyll-seo-tag

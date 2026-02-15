@@ -1,3 +1,7 @@
+---
+title: Lesson 06 - Domain Profiles and Asymmetric Precision
+---
+
 # Lesson 06: Domain Profiles and Asymmetric Precision
 
 Question: can we make precision high in `[0, 2)` but low in `[-1, 0)`?
@@ -29,6 +33,23 @@ This compares:
 - `bf16_like` (uniform)
 - `f32_like` (uniform)
 - `profile_pos_fine_neg_coarse` (piecewise)
+
+## Piecewise profile code
+
+```rust
+regions: vec![
+    Region {
+        min: -1.0,
+        max: 0.0,
+        spec: SoftFloatSpec::new("neg_coarse", 4, -20, 20),
+    },
+    Region {
+        min: 0.0,
+        max: 2.0,
+        spec: SoftFloatSpec::new("pos_fine", 12, -20, 20),
+    },
+]
+```
 
 The profile quantizer is intentionally:
 

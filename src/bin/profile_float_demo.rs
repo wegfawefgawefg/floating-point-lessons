@@ -135,6 +135,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     let xs = sample_range(-1.0, 2.0, 0.01);
 
     let mut md = String::new();
+    md.push_str("---\n");
+    md.push_str("title: Profile Quantizer Concrete Example\n");
+    md.push_str("---\n\n");
     md.push_str("# Profile Quantizer Concrete Example\n\n");
     md.push_str("Goal example: **high precision in [0, 2)** and **low precision in [-1, 0)**.\n\n");
     md.push_str("Important note: true IEEE-like floats (including bfloat16) are sign-symmetric.\n");

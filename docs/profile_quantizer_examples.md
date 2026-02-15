@@ -1,3 +1,7 @@
+---
+title: Profile Quantizer Concrete Example
+---
+
 # Profile Quantizer Concrete Example
 
 Goal example: **high precision in [0, 2)** and **low precision in [-1, 0)**.

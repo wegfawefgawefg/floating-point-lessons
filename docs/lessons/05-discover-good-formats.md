@@ -1,3 +1,7 @@
+---
+title: Lesson 05 - Discover Good Formats Automatically
+---
+
 # Lesson 05: Discover Good Formats Automatically
 
 Now we use the sweep results to rank candidate formats.
@@ -15,13 +19,18 @@ This now generates:
 - `docs/soft_float_sweep_summary.md`
 - `docs/soft_float_sweep_ranking.md`
 
+## Ranking formula in code
+
+```rust
+score = log10(mean_rel_err)
+      + w_max * log10(max_rel_err)
+      + p_under * underflow_frac
+      + p_over * overflow_frac
+```
+
 ## How ranking works
 
 Each format gets a score (lower is better):
-
-- `score = log10(mean_rel_err) + w_max*log10(max_rel_err) + p_under*underflow_frac + p_over*overflow_frac`
-
-Interpretation:
 
 - `mean_rel_err`: typical precision
 - `max_rel_err`: worst-case precision

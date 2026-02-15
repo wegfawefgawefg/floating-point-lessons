@@ -1,3 +1,7 @@
+---
+title: Lesson 04 - Sweep Many Float Formats
+---
+
 # Lesson 04: Sweep Many Float Formats
 
 Use the general evaluator:
@@ -12,6 +16,8 @@ Default outputs:
 - `docs/soft_float_sweep.csv`
 - `docs/soft_float_sweep_summary.md`
 - `docs/soft_float_sweep_ranking.md`
+
+![Soft-float sweep](../soft_float_sweep.svg)
 
 ## What it does
 

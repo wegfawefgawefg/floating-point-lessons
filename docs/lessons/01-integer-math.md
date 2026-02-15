@@ -1,3 +1,7 @@
+---
+title: Lesson 01 - Integer Math First
+---
+
 # Lesson 01: Integer Math First
 
 Before floats, start with integers.
